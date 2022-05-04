@@ -1,30 +1,47 @@
+let empPayrollList;
+
 window.addEventListener('DOMContentLoaded',(event)=>
 {
+    
+    empPayrollList= getEmployeePayrollDataFromStorage();
+    
+    document.querySelector(".emp-count").textContent= empPayrollList.length;
+   
     createInnerHtml();
 });
 
+const getEmployeePayrollDataFromStorage= ()=>{
+    return localStorage.getItem('EmployeePayrollList')?JSON.parse(localStorage.getItem('EmployeePayrollList')):[];
+}
+
 const createInnerHtml=()=>
 {
+    
+    if(empPayrollList.length==0) return;
+   
     const headerHtml= "<tr><th></th><th>Name</th><th>Gender</th><th>Department</th><th>Salary</th><th>Start Date</th><th>Actions</th></tr>"
-    //using template literal
+    
     let innerHtml= `${headerHtml}`;
-    let empPayrollList= createEmployeePayrollJSON();
+   
     for(const empPayrollData of empPayrollList){
-    innerHtml= `${innerHtml}
-    <tr>
-          <td><img class="profile" alt="" src="${empPayrollData._profilePic}"></td>
-          <td>${empPayrollData._name}</td>
-          <td>${empPayrollData._gender}</td>
-          <td>${getDeptHtml(empPayrollData._department)}
-          </td>
-          <td>${empPayrollData._salary}</td>
-          <td>${empPayrollData._startDate}</td>
-          <td><img id="${empPayrollData._id}" onclick= "remove(this)" alt="delete" src="C:\Users\abhis\OneDrive\Desktop\Day47\ASSETS\assets\icons\delete-black-18dp.svg">
-            <img id="${empPayrollData.id}" onclick= "update(this)" alt="edit" src="C:\Users\abhis\OneDrive\Desktop\Day47\ASSETS\assets\icons\create-black-18dp.svg"></td>
-    </tr>`;
+       
+        innerHtml= `${innerHtml}
+        <tr>
+            <td><img class="profile" alt="" src="${empPayrollData._profilePic}"></td>
+            <td>${empPayrollData._name}</td>
+            <td>${empPayrollData._gender}</td>
+            <td>${getDeptHtml(empPayrollData._department)}
+            </td>
+            <td>${empPayrollData._salary}</td>
+            <td>${empPayrollData._startDate}</td>
+            <td><img id="${empPayrollData._id}" onclick= "remove(this)" alt="delete" src="../assets/icons/delete-black-18dp.svg">
+            <img id="${empPayrollData._id}" onclick= "update(this)" alt="edit" src="../assets/icons/create-black-18dp.svg"></td>
+        </tr>`;
     }
-    document.querySelector('#table-display').innerHTML=innerHTML;
+    
+    document.querySelector('#table-display').innerHTML=innerHtml;
 }
+
 
 const createEmployeePayrollJSON = () => {
     let empPayrollListLocal = [
@@ -39,7 +56,7 @@ const createEmployeePayrollJSON = () => {
         _startDate: '29 Oct 2019',
         _note: '',
         _id: new Date().getTime(),
-        _profilePic: 'C:\Users\abhis\OneDrive\Desktop\Day47\ASSETS\assets\profile-images\Ellipse -3.png'
+        _profilePic: '../assets/profile-images/Ellipse -2.png'
       },
       {
         _name: 'Kumar',
@@ -51,7 +68,7 @@ const createEmployeePayrollJSON = () => {
         _startDate: '29 Oct 2019',
         _note: '',
         _id: new Date().getTime() + 1,
-        _profilePic: 'C:\Users\abhis\OneDrive\Desktop\Day47\ASSETS\assets\profile-images\Ellipse -1.png'
+        _profilePic: '../assets/profile-images/Ellipse -1.png'
       }
     ];
     return empPayrollListLocal;
